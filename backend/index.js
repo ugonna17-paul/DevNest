@@ -17,24 +17,26 @@ const paymentRoutes = require("./routes/paymentRoutes");
 // Import error handler
 const errorHandler = require("./middleware/errorHandler");
 
+// Load environment variables
 dotenv.config();
-
-connectDB();
 
 const app = express();
 
-// Middleware
+/* ======================
+   MIDDLEWARE
+====================== */
 app.use(cors());
-
-// Body parser middleware
 app.use(express.json());
 
-// Static files for payment proof images
+// Static files (payment uploads)
 app.use("/uploads", express.static("uploads"));
 
-// Routes
+/* ======================
+   HEALTH CHECK ROUTE
+   (Render uses this)
+====================== */
 app.get("/", (req, res) => {
-  res.json({ 
+  res.status(200).json({
     message: "DevNest API Running",
     version: "1.0.0",
     endpoints: {
@@ -46,11 +48,14 @@ app.get("/", (req, res) => {
       dashboard: "/api/dashboard",
       playground: "/api/run-code",
       feedback: "/api/feedback",
-      payment: "/api/payment"
-    }
+      payment: "/api/payment",
+    },
   });
 });
 
+/* ======================
+   ROUTES
+====================== */
 app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/modules", moduleRoutes);
@@ -61,12 +66,28 @@ app.use("/api/run-code", playgroundRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/payment", paymentRoutes);
 
-// Error handler middleware (must be last)
+/* ======================
+   ERROR HANDLER (LAST)
+====================== */
 app.use(errorHandler);
 
+/* ======================
+   SERVER START (RENDER SAFE)
+====================== */
 const PORT = process.env.PORT || 5008;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`API Documentation: http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log("✅ Database connected");
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Database connection failed:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
