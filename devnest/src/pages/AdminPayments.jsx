@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../config/api';
 
 export function AdminPayments() {
   const [payments, setPayments] = useState([]);
@@ -54,8 +55,8 @@ export function AdminPayments() {
     try {
       const token = localStorage.getItem('token');
       const url = filter === 'pending' 
-        ? 'http://localhost:5008/api/payment/pending'
-        : `http://localhost:5008/api/payment/all?status=${filter === 'all' ? '' : filter}`;
+        ? `${API_URL}/api/payment/pending`
+        : `${API_URL}/api/payment/all?status=${filter === 'all' ? '' : filter}`;
 
       const response = await fetch(url, {
         headers: {
@@ -81,7 +82,7 @@ export function AdminPayments() {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5008/api/payment/stats', {
+      const response = await fetch(`${API_URL}/api/payment/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -100,7 +101,7 @@ export function AdminPayments() {
     setLoadingUsers(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5008/api/auth/users', {
+      const response = await fetch(`${API_URL}/api/auth/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -130,7 +131,7 @@ export function AdminPayments() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5008/api/payment/approve/${paymentId}`, {
+      const response = await fetch(`${API_URL}/api/payment/approve/${paymentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -178,7 +179,7 @@ export function AdminPayments() {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5008/api/payment/reject/${paymentId}`, {
+      const response = await fetch(`${API_URL}/api/payment/reject/${paymentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -579,7 +580,7 @@ export function AdminPayments() {
 
               <div className="bg-[#0D1117] rounded-lg p-4">
                 <img
-                  src={`http://localhost:5008/${selectedPayment.proofImage}`}
+                  src={`${API_URL}/${selectedPayment.proofImage}`}
                   alt="Payment Proof"
                   className="max-w-full max-h-[70vh] mx-auto rounded"
                   onError={(e) => {

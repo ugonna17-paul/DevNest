@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { API_URL } from '../config/api';
 
 export function LessonPage() {
   const { lessonId } = useParams();
@@ -31,7 +32,7 @@ export function LessonPage() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`http://localhost:5008/api/lessons/single/${lessonId}`, {
+      const response = await fetch(`${API_URL}/api/lessons/single/${lessonId}`, {
         headers: {
           'Content-Type': 'application/json',
           ...(token && { 'Authorization': `Bearer ${token}` })
@@ -76,7 +77,7 @@ export function LessonPage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      await fetch('http://localhost:5008/api/progress/access', {
+      await fetch(`${API_URL}/api/progress/access`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ export function LessonPage() {
         return;
       }
 
-      const response = await fetch('http://localhost:5008/api/progress', {
+      const response = await fetch(`${API_URL}/api/progress`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

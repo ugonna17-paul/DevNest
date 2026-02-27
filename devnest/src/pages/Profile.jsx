@@ -2,6 +2,7 @@ import { AuthLayout } from '../components/auth/AuthLayout';
 import { User, Mail, Calendar, Award, Edit2, Save, X } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../config/api';
 
 export function Profile() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user') || '{}'));
@@ -37,7 +38,7 @@ export function Profile() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch('http://localhost:5008/api/auth/update-profile', {
+      const response = await fetch(`${API_URL}/api/auth/update-profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

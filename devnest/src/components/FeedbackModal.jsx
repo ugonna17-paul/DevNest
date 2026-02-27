@@ -1,6 +1,7 @@
 import { X, MessageSquare, Send } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../config/api';
 
 export function FeedbackModal({ isOpen, onClose }) {
   const [feedback, setFeedback] = useState({
@@ -31,7 +32,7 @@ export function FeedbackModal({ isOpen, onClose }) {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:5008/api/feedback', {
+      const response = await fetch(`${API_URL}/api/feedback`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

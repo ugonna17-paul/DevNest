@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from '../config/api';
 
 export function Login() {
     const [email, setEmail] = useState('');
@@ -52,7 +53,7 @@ export function Login() {
             setLoading(true);
 
             const response = await fetch(
-                'http://localhost:5008/api/auth/login',
+                `${API_URL}/api/auth/login`,
                 {
                     method: 'POST',
                     headers: {

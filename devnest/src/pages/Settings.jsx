@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../config/api';
 
 export function Settings() {
   const [passwords, setPasswords] = useState({
@@ -73,7 +74,7 @@ export function Settings() {
         return;
       }
 
-      const response = await fetch('http://localhost:5008/api/payment/my-status', {
+      const response = await fetch(`${API_URL}/api/payment/my-status`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -123,7 +124,7 @@ export function Settings() {
       formData.append('reference', paymentForm.reference.trim());
       formData.append('proofImage', paymentForm.proofImage);
 
-      const response = await fetch('http://localhost:5008/api/payment/submit-proof', {
+      const response = await fetch(`${API_URL}/api/payment/submit-proof`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -209,7 +210,7 @@ export function Settings() {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch('http://localhost:5008/api/auth/change-password', {
+      const response = await fetch(`${API_URL}/api/auth/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { API_URL } from '../config/api';
 
 export function CoursePage() {
   const { courseId } = useParams();
@@ -34,7 +35,7 @@ export function CoursePage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch('http://localhost:5008/api/payment/my-status', {
+      const response = await fetch(`${API_URL}/api/payment/my-status`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -51,7 +52,7 @@ export function CoursePage() {
 
   const fetchCourseData = async () => {
     try {
-      const response = await fetch(`http://localhost:5008/api/courses/${courseId}`);
+      const response = await fetch(`${API_URL}/api/courses/${courseId}`);
       
       // Log response for debugging
       console.log('Course fetch response status:', response.status);
@@ -89,7 +90,7 @@ export function CoursePage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch(`http://localhost:5008/api/progress/course/${courseId}`, {
+      const response = await fetch(`${API_URL}/api/progress/course/${courseId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from '../config/api';
 
 /**
  * Hook to check if user has active subscription
@@ -31,7 +32,7 @@ export function usePaymentCheck() {
     }
 
     try {
-      const response = await fetch('http://localhost:5008/api/payment/subscription-status', {
+      const response = await fetch(`${API_URL}/api/payment/subscription-status`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -1,7 +1,9 @@
 // DevNest Frontend API Service
 // All backend API calls with proper error handling and authentication
 
-const API_BASE_URL = 'http://localhost:5008/api';
+import { API_URL } from '../config/api';
+
+const API_BASE_URL = `${API_URL}/api`;
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {

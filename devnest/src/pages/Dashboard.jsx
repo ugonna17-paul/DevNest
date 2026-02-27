@@ -8,6 +8,7 @@ import {
   Clock,
   MessageSquare
 } from 'lucide-react';
+import { API_URL } from '../config/api';
 import { Link } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useState, useEffect } from 'react';
@@ -26,7 +27,7 @@ export function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5008/api/dashboard', {
+      const response = await fetch(`${API_URL}/api/dashboard`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
