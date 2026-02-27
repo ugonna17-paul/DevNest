@@ -1,4 +1,5 @@
 import { Clock, CheckCircle2 } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const learningPaths = [
     {
@@ -114,9 +115,9 @@ export function LearningPaths() {
                     data-aos="fade-up"
                     data-aos-delay="400"
                 >
-                    <button className="px-5 sm:px-6 py-2.5 sm:py-3 border border-[#30363D] text-[#C9D1D9] rounded-md hover:border-[#1F6FEB] hover:text-[#1F6FEB] transition-all text-sm sm:text-base">
+                    <Link to="/signup" className="inline-block px-5 sm:px-6 py-2.5 sm:py-3 border border-[#30363D] text-[#C9D1D9] rounded-md hover:border-[#1F6FEB] hover:text-[#1F6FEB] transition-all text-sm sm:text-base">
                         View All Learning Paths
-                    </button>
+                    </Link>
                 </div>
 
             </div>

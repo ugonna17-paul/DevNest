@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,13 +40,13 @@ export function Navbar() {
 
                     {/* Action Buttons - Desktop */}
                     <div className="hidden md:flex items-center gap-3">
-                        <button className="px-4 py-2 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors">
+                        <Link to="/login" className="px-4 py-2 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors">
                             Login
-                        </button>
+                        </Link>
 
-                        <button className="px-4 py-2 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors">
+                        <Link to="/signup" className="px-4 py-2 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors">
                             Get Started
-                        </button>
+                        </Link>
                     </div>
 
                     {/* Hamburger Menu Button - Mobile */}
@@ -86,12 +87,12 @@ export function Navbar() {
                             About
                         </a>
                         <div className="flex flex-col gap-3 pt-2">
-                            <button className="px-4 py-2 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors">
+                            <Link to="/login" className="px-4 py-2 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors text-center">
                                 Login
-                            </button>
-                            <button className="px-4 py-2 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors">
+                            </Link>
+                            <Link to="/signup" className="px-4 py-2 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors text-center">
                                 Get Started
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 )}

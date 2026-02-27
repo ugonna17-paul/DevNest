@@ -1,3 +1,5 @@
+import { Mail, MessageCircle } from 'lucide-react';
+
 export function Footer() {
     return (
         <footer
@@ -14,9 +16,29 @@ export function Footer() {
                             DevNest
                         </span>
 
-                        <p className="text-xs sm:text-sm text-[#8B949E] leading-relaxed">
+                        <p className="text-xs sm:text-sm text-[#8B949E] leading-relaxed mb-4">
                             Learn web development the structured way.
                         </p>
+
+                        {/* Contact Info */}
+                        <div className="space-y-2">
+                            <a 
+                                href="mailto:ugonnaaninwodo@gmail.com"
+                                className="flex items-center gap-2 text-xs sm:text-sm text-[#8B949E] hover:text-[#1F6FEB] transition-colors group"
+                            >
+                                <Mail size={16} className="group-hover:text-[#1F6FEB]" />
+                                <span className="break-all">ugonnaaninwodo@gmail.com</span>
+                            </a>
+                            <a 
+                                href="https://wa.me/2347072326934"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-xs sm:text-sm text-[#8B949E] hover:text-[#25D366] transition-colors group"
+                            >
+                                <MessageCircle size={16} className="group-hover:text-[#25D366]" />
+                                <span>+234 707 232 6934</span>
+                            </a>
+                        </div>
                     </div>
 
                     {/* Product */}

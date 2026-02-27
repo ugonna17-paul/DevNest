@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function Hero() {
     return (
         <section className="bg-[#0D1117] py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden">
@@ -28,13 +30,13 @@ export function Hero() {
                             data-aos="fade-up"
                             data-aos-delay="200"
                         >
-                            <button className="px-6 py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors text-sm sm:text-base">
+                            <Link to="/signup" className="px-6 py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors text-sm sm:text-base text-center">
                                 Get Started
-                            </button>
+                            </Link>
 
-                            <button className="px-6 py-3 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors text-sm sm:text-base">
+                            <Link to="/signup" className="px-6 py-3 border border-[#30363D] text-[#C9D1D9] rounded-md hover:bg-[#161B22] transition-colors text-sm sm:text-base text-center">
                                 View Docs
-                            </button>
+                            </Link>
                         </div>
                     </div>
 

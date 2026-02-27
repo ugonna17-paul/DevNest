@@ -1,4 +1,5 @@
 import { ChevronRight } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 const steps = [
     {
@@ -89,9 +90,9 @@ export function HowItWorks() {
                     data-aos="fade-up"
                     data-aos-delay="450"
                 >
-                    <button className="px-8 py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors">
+                    <Link to="/signup" className="inline-block px-8 py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors">
                         Start Learning Today
-                    </button>
+                    </Link>
                 </div>
 
             </div>

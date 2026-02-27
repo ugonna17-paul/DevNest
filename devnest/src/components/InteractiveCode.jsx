@@ -1,6 +1,37 @@
-import { Play, Copy } from "lucide-react";
+import { Play, Copy, Check } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+
+const codeExample = `import React from 'react'
+
+function Welcome() {
+  return (
+    <div className="welcome">
+      <h1>Welcome to DevNest</h1>
+      <button>Get Started</button>
+    </div>
+  )
+}`;
 
 export function InteractiveCode() {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(codeExample);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        toast.success('Code copied!', {
+            position: "top-center",
+            autoClose: 2000,
+            style: {
+                background: '#161B22',
+                color: '#C9D1D9',
+                border: '1px solid #30363D',
+            }
+        });
+    };
+
     return (
         <section className="bg-[#161B22] py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6">
             <div className="max-w-[1400px] mx-auto">
@@ -42,9 +73,9 @@ export function InteractiveCode() {
                         </div>
 
                         <div className="flex items-center gap-2 sm:gap-3">
-                            <button className="px-3 sm:px-4 py-1.5 sm:py-2 border border-[#30363D] bg-[#161B22] text-[#C9D1D9] rounded-md hover:border-[#1F6FEB] transition-all flex items-center gap-1.5 sm:gap-2 text-sm">
-                                <Copy className="w-4 h-4" />
-                                <span className="hidden sm:inline">Copy</span>
+                            <button onClick={handleCopy} className="px-3 sm:px-4 py-1.5 sm:py-2 border border-[#30363D] bg-[#161B22] text-[#C9D1D9] rounded-md hover:border-[#1F6FEB] transition-all flex items-center gap-1.5 sm:gap-2 text-sm cursor-pointer">
+                                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                                <span className="hidden sm:inline">{copied ? 'Copied' : 'Copy'}</span>
                             </button>
 
                             <button className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors flex items-center gap-1.5 sm:gap-2 text-sm">
@@ -137,9 +168,9 @@ export function InteractiveCode() {
                                         Learn web development the structured way
                                     </p>
 
-                                    <button className="px-5 sm:px-6 py-2.5 sm:py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors text-sm sm:text-base">
+                                    <Link to="/signup" className="inline-block px-5 sm:px-6 py-2.5 sm:py-3 bg-[#1F6FEB] text-white rounded-md hover:bg-[#58A6FF] transition-colors text-sm sm:text-base">
                                         Get Started
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
