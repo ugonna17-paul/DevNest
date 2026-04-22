@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Payment = require("../models/Payment");
+const axios = require("axios");
 
 const PAYSTACK_BASE_URL = "https://api.paystack.co";
 const DEFAULT_AMOUNT_NAIRA = 3000;
@@ -18,22 +19,30 @@ const callPaystack = async (path, options = {}) => {
     throw new Error("PAYSTACK_SECRET_KEY is missing in backend environment variables");
   }
 
-  const response = await fetch(`${PAYSTACK_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  });
+  try {
+    const response = await axios({
+      method: options.method || "GET",
+      url: `${PAYSTACK_BASE_URL}${path}`,
+      data: options.data,
+      headers: {
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+      timeout: 20000,
+    });
 
-  const payload = await response.json();
+    const payload = response.data;
 
-  if (!response.ok || payload.status !== true) {
-    throw new Error(payload?.message || "Paystack request failed");
+    if (payload?.status !== true) {
+      throw new Error(payload?.message || "Paystack request failed");
+    }
+
+    return payload;
+  } catch (error) {
+    const paystackMessage = error?.response?.data?.message;
+    throw new Error(paystackMessage || error.message || "Paystack request failed");
   }
-
-  return payload;
 };
 
 exports.initializePayment = async (req, res) => {
@@ -75,7 +84,7 @@ exports.initializePayment = async (req, res) => {
 
     const initialized = await callPaystack("/transaction/initialize", {
       method: "POST",
-      body: JSON.stringify(paystackPayload),
+      data: paystackPayload,
     });
 
     await Payment.findOneAndUpdate(
