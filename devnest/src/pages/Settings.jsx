@@ -111,7 +111,12 @@ export function Settings() {
       const result = await readApiResponse(response);
 
       if (!response.ok) {
-        throw new Error(result?.message || result?.raw?.slice?.(0, 120) || 'Payment verification failed');
+        throw new Error(
+          result?.error ||
+          result?.message ||
+          result?.raw?.slice?.(0, 160) ||
+          'Payment verification failed'
+        );
       }
 
       toast.success('Payment verified successfully. Courses unlocked.');
@@ -144,7 +149,12 @@ export function Settings() {
 
       const result = await readApiResponse(response);
       if (!response.ok) {
-        throw new Error(result?.message || result?.raw?.slice?.(0, 120) || 'Could not initialize payment');
+        throw new Error(
+          result?.error ||
+          result?.message ||
+          result?.raw?.slice?.(0, 160) ||
+          'Could not initialize payment'
+        );
       }
 
       const authorizationUrl = result?.data?.authorizationUrl;
