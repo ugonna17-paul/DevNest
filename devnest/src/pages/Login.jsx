@@ -92,12 +92,17 @@ export function Login() {
             });
 
             setTimeout(() => {
-                // Redirect based on role
+                // PAYMENT REMOVED FOR DEMO: Admin now redirects to dashboard instead of payments
+                // Redirect to dashboard for all users
+                navigate('/dashboard');
+                
+                /* ORIGINAL REDIRECT (DISABLED FOR DEMO):
                 if (data.role === 'admin') {
                     navigate('/admin/payments');
                 } else {
                     navigate('/dashboard');
                 }
+                */
             }, 1000);
         } catch (err) {
             toast.error(err.message || 'Something went wrong.', {

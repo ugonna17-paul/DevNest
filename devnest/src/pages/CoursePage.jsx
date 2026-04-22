@@ -10,7 +10,7 @@ import {
   Terminal,
   Book
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { API_URL } from '../config/api';
@@ -23,6 +23,7 @@ export function CoursePage() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(null);
   const [subscriptionStatus, setSubscriptionStatus] = useState('free');
+  const lastLockedToastAt = useRef(0);
 
   useEffect(() => {
     fetchCourseData();
@@ -47,6 +48,7 @@ export function CoursePage() {
       }
     } catch (error) {
       console.error('Subscription status fetch error:', error);
+      setSubscriptionStatus('free');
     }
   };
 
@@ -116,9 +118,11 @@ export function CoursePage() {
   const handleLessonClick = (e, lesson) => {
     if (subscriptionStatus !== 'active') {
       e.preventDefault();
-      toast.warning('🔒 Premium subscription required! Pay ₦3,000 for lifetime access to all courses.', {
-        autoClose: 5000
-      });
+      const now = Date.now();
+      if (now - lastLockedToastAt.current > 1200) {
+        lastLockedToastAt.current = now;
+        toast.error('Premium subscription required. Complete payment to continue.');
+      }
     }
   };
 
@@ -145,7 +149,6 @@ export function CoursePage() {
   return (
     <AuthLayout>
       <div className="max-w-5xl">
-        {/* Subscription Status Banner */}
         {subscriptionStatus !== 'active' && (
           <div className="mb-6 p-4 bg-gradient-to-r from-[#1F6FEB]/20 to-[#388BFD]/20 border border-[#1F6FEB] rounded-lg">
             <div className="flex items-center justify-between">
@@ -154,12 +157,12 @@ export function CoursePage() {
                 <div>
                   <p className="text-[#C9D1D9] font-semibold">
                     {subscriptionStatus === 'pending' 
-                      ? '⏳ Payment Pending Approval' 
+                      ? '⏳ Payment Pending Verification' 
                       : '🔒 Premium Content Locked'}
                   </p>
                   <p className="text-[#8B949E] text-sm mt-1">
                     {subscriptionStatus === 'pending'
-                      ? 'Your payment is being reviewed. You\'ll get access once approved.'
+                      ? 'Complete payment verification in Settings to unlock your courses.'
                       : 'Pay ₦3,000 one-time for lifetime access to all courses'}
                   </p>
                 </div>
@@ -289,19 +292,26 @@ export function CoursePage() {
                         onClick={(e) => handleLessonClick(e, lesson)}
                       >
                         <div
-                          className={`py-4 px-4 flex items-center justify-between rounded-md hover:bg-[#0D1117] transition-colors cursor-pointer ${
-                            subscriptionStatus !== 'active' ? 'opacity-60' : ''
+                          className={`py-4 px-4 flex items-center justify-between rounded-md transition-colors border ${
+                            subscriptionStatus === 'active'
+                              ? 'hover:bg-[#0D1117] cursor-pointer border-transparent'
+                              : 'bg-[#0D1117]/70 border-[#30363D]/70 cursor-not-allowed opacity-75'
                           }`}
                         >
                           <div className="flex items-center gap-4">
                             {subscriptionStatus !== 'active' ? (
-                              <Lock size={20} className="text-[#F85149]" />
+                              <Lock size={18} className="text-[#d29922]" />
                             ) : (
                               <Circle size={20} className="text-[#8B949E]" />
                             )}
-                            <span className="text-[15px] text-[#C9D1D9]">
+                            <span className={`text-[15px] ${subscriptionStatus === 'active' ? 'text-[#C9D1D9]' : 'text-[#8B949E]'}`}>
                               {lesson.title}
                             </span>
+                            {subscriptionStatus !== 'active' && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#d29922]/20 text-[#d29922]">
+                                Locked
+                              </span>
+                            )}
                           </div>
                           <div className="flex items-center gap-2">
                             <Clock size={14} className="text-[#8B949E]" />

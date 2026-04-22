@@ -63,6 +63,7 @@ export function Sidebar({ isOpen, onClose }) {
       } md:translate-x-0`}>
       <div className="p-4 space-y-1">
         {/* Admin Section - Show ONLY for Admins */}
+        {/* PAYMENT REMOVED FOR DEMO: Payment management link disabled */}
         {isAdmin ? (
           <>
             <div className="px-3 py-2 mb-4">
@@ -71,11 +72,12 @@ export function Sidebar({ isOpen, onClose }) {
                 <span className="text-sm font-semibold uppercase tracking-wider">Admin Dashboard</span>
               </div>
               <p className="text-[#8B949E] text-xs">
-                Manage payments and users
+                Manage courses and users
               </p>
             </div>
 
-            <Link to="/admin/payments" onClick={handleLinkClick}>
+            {/* PAYMENT REMOVED FOR DEMO: Payment Management link disabled */}
+            {/* <Link to="/admin/payments" onClick={handleLinkClick}>
               <div
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-[#0D1117] transition-colors cursor-pointer ${
                   isActive('/admin/payments') ? 'bg-[#0D1117] text-[#1F6FEB]' : 'text-[#C9D1D9]'
@@ -84,7 +86,7 @@ export function Sidebar({ isOpen, onClose }) {
                 <CreditCard size={18} />
                 <span className="text-sm font-medium">Payment Management</span>
               </div>
-            </Link>
+            </Link> */}
           </>
         ) : (
           <>

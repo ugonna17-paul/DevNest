@@ -21,7 +21,8 @@ import { Playground } from './pages/Playground';
 import { Projects } from './pages/Projects';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
-import { AdminPayments } from './pages/AdminPayments';
+// PAYMENT REMOVED FOR DEMO: AdminPayments page disabled
+// import { AdminPayments } from './pages/AdminPayments';
 
 function App() {
 
@@ -56,7 +57,8 @@ function App() {
       <Route path="/projects" element={<Projects />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="/admin/payments" element={<AdminPayments />} />
+      {/* PAYMENT REMOVED FOR DEMO: AdminPayments route disabled */}
+      {/* <Route path="/admin/payments" element={<AdminPayments />} /> */}
     </Routes>
   )
 }

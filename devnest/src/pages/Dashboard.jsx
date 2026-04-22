@@ -6,7 +6,8 @@ import {
   ArrowRight,
   CheckCircle2,
   Clock,
-  MessageSquare
+  MessageSquare,
+  Lock
 } from 'lucide-react';
 import { API_URL } from '../config/api';
 import { Link } from 'react-router-dom';
@@ -19,9 +20,11 @@ export function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState('free');
 
   useEffect(() => {
     fetchDashboardData();
+    fetchSubscriptionStatus();
   }, []);
 
   const fetchDashboardData = async () => {
@@ -45,6 +48,26 @@ export function Dashboard() {
       toast.error('Failed to connect to server');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSubscriptionStatus = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/api/payment/my-status`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const result = await response.json();
+      if (result.subscription?.status) {
+        setSubscriptionStatus(result.subscription.status);
+      }
+    } catch (error) {
+      console.error('Dashboard subscription fetch error:', error);
     }
   };
 
@@ -104,6 +127,20 @@ export function Dashboard() {
             Track your learning progress and continue where you left off
           </p>
         </div>
+
+        {subscriptionStatus !== 'active' && (
+          <div className="mb-6 md:mb-8 bg-[#1F6FEB]/10 border border-[#1F6FEB] rounded-lg p-4 md:p-5 flex items-start gap-3">
+            <Lock size={20} className="text-[#58A6FF] mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-[#C9D1D9] font-semibold">
+                Premium access is locked
+              </p>
+              <p className="text-[#8B949E] text-sm mt-1">
+                Pay once to unlock the full course library. Locked items will open automatically after payment.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
@@ -266,6 +303,12 @@ export function Dashboard() {
                         <span className="text-[#C9D1D9] text-[14px] font-medium">
                           {course.title}
                         </span>
+                        {subscriptionStatus !== 'active' && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#d29922]/20 text-[#d29922]">
+                            <Lock size={12} />
+                            Locked
+                          </span>
+                        )}
                         {course.percentage === 100 && (
                           <CheckCircle2 size={16} className="text-[#238636]" />
                         )}

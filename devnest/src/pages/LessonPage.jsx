@@ -46,12 +46,8 @@ export function LessonPage() {
         // Track lesson access
         trackAccess(result.data.course._id);
       } else {
-        // Handle different error cases
         if (response.status === 403 && result.code === 'SUBSCRIPTION_REQUIRED') {
-          toast.error('🔒 Premium subscription required to access lessons', {
-            autoClose: 5000
-          });
-          navigate('/dashboard');
+          navigate('/settings');
         } else if (response.status === 401) {
           toast.error('Please login to access lessons');
           navigate('/login');

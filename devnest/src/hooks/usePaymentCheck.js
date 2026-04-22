@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { API_URL } from '../config/api';
 
 /**
- * Hook to check if user has active subscription
- * Returns subscription status and loading state
+ * PAYMENT REMOVED FOR DEMO: Hook modified to always grant access
+ * Original: checked subscription status via API
+ * Demo: always returns 'active' status for all authenticated users
  */
 export function usePaymentCheck() {
   const [subscription, setSubscription] = useState({
-    status: 'free',
-    hasAccess: false,
-    loading: true,
+    status: 'active',  // Always active for demo
+    hasAccess: true,   // Always grant access
+    loading: false,    // No loading needed
     error: null
   });
 
   useEffect(() => {
+    // Demo mode: instantly grant access without API check
     checkSubscriptionStatus();
   }, []);
 
@@ -31,6 +33,16 @@ export function usePaymentCheck() {
       return;
     }
 
+    // DEMO MODE: Always grant access to authenticated users
+    setSubscription({
+      status: 'active',
+      hasAccess: true,
+      paidAt: new Date(),
+      loading: false,
+      error: null
+    });
+
+    /* ORIGINAL PAYMENT CHECK (DISABLED FOR DEMO):
     try {
       const response = await fetch(`${API_URL}/api/payment/subscription-status`, {
         headers: {
@@ -62,6 +74,7 @@ export function usePaymentCheck() {
         error: error.message
       });
     }
+    */
   };
 
   const refreshSubscription = () => {
