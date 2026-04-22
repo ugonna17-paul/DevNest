@@ -5,45 +5,49 @@ const paymentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      required: true,
     },
     amount: {
       type: Number,
       required: true,
-      default: 3000
+      default: 3000,
     },
     reference: {
       type: String,
       required: true,
-      trim: true
-    },
-    proofImage: {
-      type: String,
-      required: true
+      trim: true,
+      unique: true,
     },
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
-      default: "pending"
+      default: "pending",
     },
-    adminNote: {
-      type: String
+    provider: {
+      type: String,
+      default: "paystack",
     },
-    approvedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+    gatewayStatus: {
+      type: String,
+      default: null,
     },
-    approvedAt: {
-      type: Date
-    }
+    gatewayResponse: {
+      type: String,
+      default: null,
+    },
+    paidAt: {
+      type: Date,
+      default: null,
+    },
+    rawVerification: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
   },
-  { 
-    timestamps: true 
-  }
+  { timestamps: true }
 );
 
-// Index for faster queries
 paymentSchema.index({ user: 1, status: 1 });
-paymentSchema.index({ status: 1, createdAt: -1 });
+paymentSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Payment", paymentSchema);

@@ -28,7 +28,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Static files (payment uploads)
 app.use("/uploads", express.static("uploads"));
 
 /* ======================

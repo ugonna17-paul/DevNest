@@ -8,9 +8,9 @@ const {
 const { protect } = require('../middleware/authMiddleware');
 const { requireActiveSubscription } = require('../middleware/subscriptionMiddleware');
 
-// Protected routes - require authentication + active subscription
-router.get('/:courseId', protect, requireActiveSubscription, getModulesByCourse);
+// Protected learning routes
 router.get('/single/:moduleId', protect, requireActiveSubscription, getModuleById);
+router.get('/:courseId', protect, requireActiveSubscription, getModulesByCourse);
 
 // Admin routes
 router.post('/', protect, createModule);

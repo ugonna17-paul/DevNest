@@ -172,12 +172,11 @@ const getAllUsers = async (req, res) => {
             .select('-password')
             .sort({ createdAt: -1 });
 
-        // Count users by subscription status
         const stats = {
             total: users.length,
-            free: users.filter(u => u.subscription.status === 'free').length,
-            pending: users.filter(u => u.subscription.status === 'pending').length,
-            active: users.filter(u => u.subscription.status === 'active').length,
+            free: users.filter(u => (u.subscription?.status || 'free') === 'free').length,
+            pending: users.filter(u => (u.subscription?.status || 'free') === 'pending').length,
+            active: users.filter(u => (u.subscription?.status || 'free') === 'active').length,
         };
 
         res.status(200).json({
@@ -188,7 +187,7 @@ const getAllUsers = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                subscription: user.subscription,
+                subscription: user.subscription || { status: 'free', paidAt: null, reference: null },
                 joinedAt: user.createdAt,
             }))
         });

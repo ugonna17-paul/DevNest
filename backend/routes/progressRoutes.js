@@ -7,11 +7,12 @@ const {
     updateLessonAccess
 } = require('../controllers/progressController');
 const { protect } = require('../middleware/authMiddleware');
+const { requireActiveSubscription } = require('../middleware/subscriptionMiddleware');
 
 // All progress routes are protected
-router.post('/', protect, markLessonComplete);
-router.get('/', protect, getUserProgress);
-router.get('/course/:courseId', protect, getCourseProgressPercentage);
-router.put('/access', protect, updateLessonAccess);
+router.post('/', protect, requireActiveSubscription, markLessonComplete);
+router.get('/', protect, requireActiveSubscription, getUserProgress);
+router.get('/course/:courseId', protect, requireActiveSubscription, getCourseProgressPercentage);
+router.put('/access', protect, requireActiveSubscription, updateLessonAccess);
 
 module.exports = router;
